@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.10)
+project(trapezoidal_travel CUDA)
+
+add_executable(trapezoidal_travel_basic trapezoidal_travel_basic.cu)
+add_executable(trapezoidal_travel_gpu_reduce trapezoidal_travel_gpu_reduce.cu)

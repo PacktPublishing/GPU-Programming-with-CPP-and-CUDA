@@ -1,0 +1,6 @@
+build
+*.nsys-rep
+*.ncu-occ
+*.ncu-proj
+*.log
+*.so

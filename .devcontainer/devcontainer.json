@@ -1,0 +1,33 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/ubuntu
+{
+	"build": {
+        // Path is relative to the devcontainer.json file.
+        "dockerfile": "DockerfileUbuntu"
+    }, 
+
+	"runArgs": ["--gpus", "all",
+				"--env",
+				"DISPLAY=${env:DISPLAY}",
+				"--env",
+				"QT_X11_NO_MITSHM=1",
+				"--volume=/tmp/.X11-unix:/tmp/.X11-unix", 
+				"--cap-add=SYS_ADMIN",
+				"--volume=/etc/machine-id:/etc/machine-id",
+    			"--privileged"
+			],
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"terminal.integrated.defaultProfile.linux": "bash"
+				},
+			"extensions": [
+				"nvidia.nsight-vscode-edition",
+				"ms-vscode.cmake-tools",
+				"ms-vscode.cpptools-extension-pack",
+				"ms-python.python"
+			]
+		}
+	},
+	"remoteUser": "gpuuser"
+}

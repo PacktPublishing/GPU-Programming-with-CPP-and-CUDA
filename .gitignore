@@ -4,3 +4,4 @@ build
 *.ncu-proj
 *.log
 *.so
+*.pyc

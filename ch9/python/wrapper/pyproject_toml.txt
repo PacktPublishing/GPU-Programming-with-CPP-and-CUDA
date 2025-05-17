@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vector_add_wrapper"
+version = "1.0"
+description = "Python binding for CUDA vector addition"
+authors = [{ name = "Paulo Motta", email = "mottapaulo@ieee.org" }]
+dependencies = []
+
+[tool.setuptools]
+packages = []
+
+[tool.setuptools.ext_modules]
+vector_add_wrapper = { sources = ["vector_add_wrapper.c"] }

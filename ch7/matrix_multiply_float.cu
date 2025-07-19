@@ -107,6 +107,32 @@ __global__ void matrixMulKernel_naive(float *A, float *B, float *C, int width) {
     }
 }
 
+__global__ void matrixMulKernel_row(float *A, float *B, float *C, int width) {
+    int row = blockIdx.x * blockDim.x + threadIdx.x;
+    if (row < width) {
+        for (int col = 0; col < width; col++) {
+            float sum = 0.0f;
+            for (int i = 0; i < width; i++) {
+                sum += A[row * width + i] * B[i * N + col];
+            }
+            C[row * N + col] = sum;
+        }
+    }
+}
+
+__global__ void matrixMulKernel_col(float *A, float *B, float *C, int width) {
+    int col = blockIdx.x * blockDim.x + threadIdx.x;
+    if (col < width) {
+        for (int row = 0; row < width; row++) {
+            float sum = 0.0f;
+            for (int i = 0; i < width; i++) {
+                sum += A[row * width + i] * B[i * N + col];
+            }
+            C[row * N + col] = sum;
+        }
+    }
+}
+
 void matrixMulCpu(float *A, float *B, float *C, int width) {
     for (int row = 0; row < width; row++) {
         for (int col = 0; col < width; col++) {
@@ -189,6 +215,12 @@ int main() {
     dim3 gridDim((N + blockDim.x - 1) / blockDim.x, (N + blockDim.y - 1) / blockDim.y);
 
     matrixMulKernel<<<gridDim, blockDim>>>(d_A, d_B, d_C, N);
+
+    // for those kernels we need a different launch configuration
+    // int threads = 256;
+    // int blocks = (N + threads - 1) / threads ;
+    // matrixMulKernel_row<<<blocks, threads>>>(d_A, d_B, d_C, N);
+    // matrixMulKernel_col<<<blocks, threads>>>(d_A, d_B, d_C, N);
 
     cudaEventRecord(stop);
 

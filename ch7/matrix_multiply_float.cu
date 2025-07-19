@@ -115,7 +115,7 @@ __global__ void matrixMulKernel_row(float *A, float *B, float *C, int width) {
             for (int i = 0; i < width; i++) {
                 sum += A[row * width + i] * B[i * N + col];
             }
-            C[row * N + col] = sum;
+            C[row * width + col] = sum;
         }
     }
 }
@@ -128,7 +128,7 @@ __global__ void matrixMulKernel_col(float *A, float *B, float *C, int width) {
             for (int i = 0; i < width; i++) {
                 sum += A[row * width + i] * B[i * N + col];
             }
-            C[row * N + col] = sum;
+            C[row * width + col] = sum;
         }
     }
 }

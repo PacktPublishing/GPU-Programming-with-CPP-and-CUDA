@@ -7,7 +7,7 @@
 #define BLOCK_SIZE 256
 
 __global__ void vectorMatrixMulKernel(float* d_vec, float* d_mat, float* d_res, int rows, int cols) {
-    int row = blockIdx.x * blockDim.x + threadIdx.x;
+    int row = threadIdx.x + blockIdx.x * blockDim.x;
     if (row < rows) {
         float sum = 0.0f;
         for (int col = 0; col < cols; col++) {
@@ -44,8 +44,8 @@ void initializeMatrix(float *matrix, int size) {
 
 float compute(int chunkSize, int cols, bool computeCpuPart) {
     int rows = cols;
-    float *h_vec = (float*)malloc(cols * sizeof(float));
-    float *h_res_cpu = (float*)malloc(cols * sizeof(float));
+    float *h_vec = (float*)malloc(rows * sizeof(float));
+    float *h_res_cpu = (float*)malloc(rows * sizeof(float));
     float *h_mat_pinned, *h_res_gpu;
     cudaMallocHost(&h_mat_pinned, rows * cols * sizeof(float));
     cudaMallocHost(&h_res_gpu, rows * sizeof(float));

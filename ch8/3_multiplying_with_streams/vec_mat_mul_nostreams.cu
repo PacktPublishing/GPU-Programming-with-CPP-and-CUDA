@@ -7,7 +7,7 @@
 #define BLOCK_SIZE 256
 
 __global__ void vectorMatrixMulKernel(float* d_vec, float* d_mat, float* d_res, int rows, int cols) {
-    int row = blockIdx.x * blockDim.x + threadIdx.x;
+    int row = threadIdx.x + blockIdx.x * blockDim.x;
     if (row < rows) {
         float sum = 0.0f;
         for (int col = 0; col < cols; col++) {
@@ -45,7 +45,7 @@ void initializeMatrix(float *matrix, int size) {
 void compute(int cols) {
     int rows = cols;
 
-    float *h_vec = (float*)malloc(cols * sizeof(float));
+    float *h_vec = (float*)malloc(rows * sizeof(float));
     float *h_mat = (float*)malloc(rows * cols * sizeof(float));
     initializeMatrix(h_vec, cols);
     initializeMatrix(h_mat, rows * cols);

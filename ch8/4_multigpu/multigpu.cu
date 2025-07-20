@@ -7,7 +7,7 @@
 #define BLOCK_SIZE 256
 
 __global__ void vectorMatrixMulKernel(float* d_vec, float* d_mat, float* d_res, int rows, int cols) {
-    int row = blockIdx.x * blockDim.x + threadIdx.x;
+    int row = threadIdx.x + blockIdx.x * blockDim.x;
     if (row < rows) {
         float sum = 0.0f;
         for (int col = 0; col < cols; col++) {
@@ -54,8 +54,8 @@ int main() {
     int rows = cols;
     int chunk_size = rows / deviceCount;
 
-    float *h_vec = (float*)malloc(cols * sizeof(float));
-    float *h_res_cpu = (float*)malloc(cols * sizeof(float));
+    float *h_vec = (float*)malloc(rows * sizeof(float));
+    float *h_res_cpu = (float*)malloc(rows * sizeof(float));
     float *h_mat = (float*)malloc(rows * cols * sizeof(float));
     float *h_res_gpu = (float*)malloc(rows * sizeof(float));
 
@@ -68,11 +68,11 @@ int main() {
     float *d_res[deviceCount];
     for (int device = 0; device < deviceCount; device++) {
         cudaSetDevice(device);
-        cudaMalloc(&d_vec[device], cols * sizeof(float));
+        cudaMalloc(&d_vec[device], rows * sizeof(float));
         cudaMalloc(&d_mat[device], chunk_size * cols * sizeof(float));
         cudaMalloc(&d_res[device], chunk_size * sizeof(float));
 
-        cudaMemcpy(d_vec[device], h_vec, cols * sizeof(float), cudaMemcpyHostToDevice);
+        cudaMemcpy(d_vec[device], h_vec, rows * sizeof(float), cudaMemcpyHostToDevice);
     }
 
     auto gpuStart = std::chrono::high_resolution_clock::now();

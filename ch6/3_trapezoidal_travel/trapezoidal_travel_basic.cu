@@ -7,7 +7,7 @@
 #define T 0.25                 // Time interval between measurements (15 minutes)
 
 __global__ void trapezoidalKernel(double *speeds, double *distances, int n) {
-    int i = blockIdx.x * blockDim.x + threadIdx.x;
+    int i = threadIdx.x + blockIdx.x * blockDim.x;
     if (i < n - 1) {
         distances[i] = 0.5 * (speeds[i] + speeds[i + 1]) * T;
     }

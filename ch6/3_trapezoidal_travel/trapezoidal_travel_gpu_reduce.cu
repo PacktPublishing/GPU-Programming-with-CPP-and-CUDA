@@ -9,7 +9,7 @@
 __global__ void trapezoidalKernel(double *speeds, double *result, int n) {
     extern __shared__ double sharedData[];
     int tid = threadIdx.x;
-    int i = blockIdx.x * blockDim.x + threadIdx.x;
+    int i = threadIdx.x + blockIdx.x * blockDim.x;
 
     double localDistance = 0.0;
     if (i < n - 1) {

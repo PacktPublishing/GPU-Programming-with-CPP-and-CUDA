@@ -6,8 +6,8 @@
 #define N 7000
 
 __global__ void matrixAddKernel(const double* A, const double* B, double* C, int width) {
-    int row = blockIdx.y * blockDim.y + threadIdx.y;
-    int col = blockIdx.x * blockDim.x + threadIdx.x;
+    int row = threadIdx.y + blockIdx.y * blockDim.y;
+    int col = threadIdx.x + blockIdx.x * blockDim.x;
 
     if (row < width && col < width) {
         int idx = row * width + col;

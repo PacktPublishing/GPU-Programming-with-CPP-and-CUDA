@@ -3,7 +3,7 @@
 #include <chrono>
 
 __global__ void vectorAddKernel(float *A, float *B, float *C, int N) {
-    int i = threadIdx.x + blockDim.x * blockIdx.x;
+    int i = threadIdx.x + blockIdx.x * blockDim.x;
     if (i < N) {
         C[i] = A[i] + B[i];
     }

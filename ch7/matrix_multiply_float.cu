@@ -12,8 +12,8 @@ __global__ void matrixMulKernel(float *A, float *B, float *C, int width) {
 
     int tx = threadIdx.x;
     int ty = threadIdx.y;
-    int row = blockIdx.y * blockDim.y + ty;
-    int col = blockIdx.x * blockDim.x + tx;
+    int row = ty + blockIdx.y * blockDim.y;
+    int col = tx + blockIdx.x * blockDim.x;
 
     float sum = 0.0f;
 
@@ -62,8 +62,8 @@ __global__ void matrixMulKernel_shared(float* A, float* B, float* C, int n) {
 
     int tx = threadIdx.x;
     int ty = threadIdx.y;
-    int row = blockIdx.y * blockDim.y + ty;
-    int col = blockIdx.x * blockDim.x + tx;
+    int row = ty + blockIdx.y * blockDim.y;
+    int col = tx + blockIdx.x * blockDim.x;
 
     float sum = 0.0f;
 
@@ -95,8 +95,8 @@ __global__ void matrixMulKernel_shared(float* A, float* B, float* C, int n) {
 }
 
 __global__ void matrixMulKernel_naive(float *A, float *B, float *C, int width) {
-    int row = blockIdx.y * blockDim.y + threadIdx.y;
-    int col = blockIdx.x * blockDim.x + threadIdx.x;
+    int row = threadIdx.y + blockIdx.y * blockDim.y;
+    int col = threadIdx.x + blockIdx.x * blockDim.x;
 
     if (row < width && col < width) {
         float value = 0;
@@ -108,7 +108,7 @@ __global__ void matrixMulKernel_naive(float *A, float *B, float *C, int width) {
 }
 
 __global__ void matrixMulKernel_row(float *A, float *B, float *C, int width) {
-    int row = blockIdx.x * blockDim.x + threadIdx.x;
+    int row = threadIdx.x + blockIdx.x * blockDim.x;
     if (row < width) {
         for (int col = 0; col < width; col++) {
             float sum = 0.0f;
@@ -121,7 +121,7 @@ __global__ void matrixMulKernel_row(float *A, float *B, float *C, int width) {
 }
 
 __global__ void matrixMulKernel_col(float *A, float *B, float *C, int width) {
-    int col = blockIdx.x * blockDim.x + threadIdx.x;
+    int col = threadIdx.x + blockIdx.x * blockDim.x;
     if (col < width) {
         for (int row = 0; row < width; row++) {
             float sum = 0.0f;

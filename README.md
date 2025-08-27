@@ -81,6 +81,7 @@ Combining expert insight with real-world problem solving, this book is a valuabl
 
 <details open> 
   <summary><h2>Requirements for this book</summary>
+
 You should be comfortable writing computer programs in C++, and basic knowledge of operating systems will help to understand some of the more advanced concepts, given that we have to manage device communication.
 <table>     
    <tr><td><b>Software / hardware covered in the book</td><td><b>Operating system requirements</td></tr>
@@ -93,6 +94,7 @@ You should be comfortable writing computer programs in C++, and basic knowledge 
    <tr><td>Python 3.8</td><td></td></tr>
    <tr><td>Nsight Compute 2023.3</td><td></td></tr>
 </table>
+In <i>Chapter 2</i>, we discuss options for configuring the development environment. Some of the software that we need is installed automatically if you elect to use the Docker-based development environment.
   </details>
 
 ## Code conventions

@@ -67,7 +67,7 @@ int main() {
     cudaEventRecord(stopEvent, 0);
     cudaEventSynchronize(stopEvent);
 
-    float gpuDuration = 0;
+    float gpuDuration;
     cudaEventElapsedTime(&gpuDuration, startEvent, stopEvent);
 
     std::cout << "Time taken on GPU: " << gpuDuration << " ms" << std::endl;

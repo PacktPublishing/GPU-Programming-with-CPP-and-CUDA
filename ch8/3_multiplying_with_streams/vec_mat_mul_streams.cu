@@ -101,7 +101,7 @@ float compute(int chunkSize, int cols, bool computeCpuPart) {
 
     cudaEventSynchronize(stop);
 
-    float gpuDuration = 0;
+    float gpuDuration;
     cudaEventElapsedTime(&gpuDuration, start, stop);
     std::cout << "Time taken by GPU: " << gpuDuration << " ms, for matrix: " << cols << "x" << cols << " chunk size: " << chunkSize << std::endl;
 

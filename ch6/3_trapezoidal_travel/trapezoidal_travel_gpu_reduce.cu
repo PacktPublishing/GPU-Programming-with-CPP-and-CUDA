@@ -85,7 +85,7 @@ int main() {
     cudaEventRecord(endGPU);
     cudaEventSynchronize(endGPU);
 
-    float gpuDuration = 0.0;
+    float gpuDuration;
     cudaEventElapsedTime(&gpuDuration, startGPU, endGPU);
 
     std::cout << "GPU Distance: " << gpuResult << " km" << std::endl;
